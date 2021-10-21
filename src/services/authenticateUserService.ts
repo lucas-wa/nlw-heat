@@ -10,8 +10,9 @@ Retornar o token com as infos do usuário
  */
 
 import axios from "axios";
-import { response } from "express";
-// import prismaClient from "../prisma";
+// import { response } from "express";
+import prismaClient from "../prisma/index";
+
 import { sign } from "jsonwebtoken";
 
 interface IAcessTokenResponse {
@@ -52,38 +53,38 @@ class authenticateUserService {
       }
     );
 
-    // const { login, id, avatar_url, name } = response.data;
+    const { login, id, avatar_url, name } = response.data;
 
-    // let user = await prismaClient.user.findFirst({
-    //   where: {
-    //     github_id: id
-    //   }
-    // });
+    let user = await prismaClient.user.findFirst({
+      where: {
+        github_id: id
+      }
+    });
 
-    // if (!user) {
-    //   user = await prismaClient.user.client({
-    //     data: {
-    //       github_id: id,
-    //       login,
-    //       avatar_url,
-    //       name
-    //     }
-    //   });
-    // }
+    if (!user) {
+      user = await prismaClient.user.create({
+        data: {
+          github_id: id,
+          login,
+          avatar_url,
+          name
+        }
+      });
+    }
 
-    // const token = sign(
-    //   {
-    //     user: {
-    //       name: user.name,
-    //       avatar_ur: user.avatar_url,
-    //       id: user.id
-    //     }
-    //   },
-    //   process.env.JWT_SECRET,
-    //   { subject: user.id, expiresIn: "1d" }
-    // );
+    const token = sign(
+      {
+        user: {
+          name: user.name,
+          avatar_ur: user.avatar_url,
+          id: user.id
+        }
+      },
+      process.env.JWT_SECRET,
+      { subject: user.id, expiresIn: "1d" }
+    );
 
-    return response.data;
+    return { token, user };
   }
 }
 

@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://7xfmm.sse.codesandbox.io/"
+  baseURL: "https://zuh2r.sse.codesandbox.io/"
 });

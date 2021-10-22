@@ -1,5 +1,5 @@
 import { serverHttp } from "./app";
 
-serverHttp.listen(4000);
+serverHttp.listen(6000);
 
 console.log("rodando");

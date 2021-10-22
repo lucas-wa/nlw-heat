@@ -25,7 +25,7 @@ export function LoginBox() {
 
     localStorage.setItem("@dowhile:token", token);
 
-    console.log(user, token);
+    console.log(response, response.data, user, token);
   }
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export function LoginBox() {
     if (hasGithubCode) {
       const [urlWithoutCode, githubCode] = url.split(`?code=`);
 
+      // console.log({ urlWithoutCode, githubCode });
       window.history.pushState({}, "", urlWithoutCode);
 
       signIn(githubCode);

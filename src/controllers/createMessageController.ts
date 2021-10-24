@@ -1,9 +1,9 @@
-import { request, Request, response, Response } from "express";
+import { Request, Response } from "express";
 import { createMessageService } from "../services/createMessageService";
 
 class createMessageController {
-  async handle(req: Request, res: Response) {
-    const { message } = req.body;
+  async handle(request: Request, response: Response) {
+    const { message } = request.body;
     const { user_id } = request;
 
     const service = new createMessageService();
